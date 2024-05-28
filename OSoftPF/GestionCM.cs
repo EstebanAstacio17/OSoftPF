@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace OSoftPF
 {
-    public partial class Administrador : Form
+    public partial class GestionCM : Form
     {
-        public Administrador()
+        public GestionCM()
         {
             InitializeComponent();
         }

@@ -191,7 +191,6 @@ namespace OSoftPF
             }
         }
 
-
         private void TxtUser_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Verificar si el carácter ingresado es una letra

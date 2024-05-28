@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Data.SqlClient;
-using System.Reflection.Emit;
 
 namespace OSoftPF
 {
@@ -18,13 +17,11 @@ namespace OSoftPF
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString;
 
-        // Propiedad para almacenar el idusuario
-        public int IdUsuario { get; set; }
         public MenuPrincipal(int idUsuario)
         {
             InitializeComponent();
 
-            IdUsuario = idUsuario;
+            UsuarioConectado.IdUsuario = idUsuario;
 
             FillLabels();
         }
@@ -32,19 +29,16 @@ namespace OSoftPF
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
             VistaDeAdministrador();
-
             AdministrarControlUsuarios();
+            ConfiguracionBotonConfiguracion();
         }
 
         private void MenuPrincipal_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // Registrar salida en la tabla Sesiones
-            RegistrarSalidaSesion(IdUsuario, lblUsuario.Text);
-
+            RegistrarSalidaSesion(UsuarioConectado.IdUsuario, UsuarioConectado.Usuario);
             Application.Exit(); // Cierra la aplicación por completo cuando se cierra este formulario
         }
-        
-       
+
         private void FillLabels()
         {
             try
@@ -55,24 +49,32 @@ namespace OSoftPF
                     string query = "SELECT NombreCompleto, ApellidoCompleto, Usuario, Permiso, Zona, Equipo, Rol, Pais FROM Usuarios WHERE idusuario = @idUsuario";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@idUsuario", IdUsuario);
+                        cmd.Parameters.AddWithValue("@idUsuario", UsuarioConectado.IdUsuario);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
+                                // Almacena los valores en la clase estática UsuarioInfo
+                                UsuarioConectado.NombreCompleto = reader["NombreCompleto"].ToString();
+                                UsuarioConectado.ApellidoCompleto = reader["ApellidoCompleto"].ToString();
+                                UsuarioConectado.Usuario = reader["Usuario"].ToString();
+                                UsuarioConectado.Permiso = reader["Permiso"].ToString();
+                                UsuarioConectado.Zona = reader["Zona"].ToString();
+                                UsuarioConectado.Equipo = reader["Equipo"].ToString();
+                                UsuarioConectado.Rol = reader["Rol"].ToString();
+                                UsuarioConectado.Pais = reader["Pais"].ToString();
+
                                 // Obtiene la primera palabra del NombreCompleto y ApellidoCompleto
-                                string nombreCompleto = reader["NombreCompleto"].ToString();
-                                string apellidoCompleto = reader["ApellidoCompleto"].ToString();
-                                string primerNombre = nombreCompleto.Split(' ')[0];
-                                string primerApellido = apellidoCompleto.Split(' ')[0];
+                                string primerNombre = UsuarioConectado.NombreCompleto.Split(' ')[0];
+                                string primerApellido = UsuarioConectado.ApellidoCompleto.Split(' ')[0];
 
                                 // Asigna los valores de las columnas a las etiquetas
                                 lblNombre.Text = primerNombre;
                                 lblApellido.Text = primerApellido;
-                                lblUsuario.Text = reader["Usuario"].ToString();
-                                lblPermiso.Text = reader["Permiso"].ToString();
-                                lblId.Text = "ID: " + IdUsuario.ToString();
-                                lblHerramientas.Text = $"{reader["Zona"]} - {reader["Equipo"]} - {reader["Rol"]} - {reader["Pais"]}";
+                                lblUsuario.Text = UsuarioConectado.Usuario;
+                                lblPermiso.Text = UsuarioConectado.Permiso;
+                                lblId.Text = "ID: " + UsuarioConectado.IdUsuario.ToString();
+                                lblHerramientas.Text = $"{UsuarioConectado.Zona} - {UsuarioConectado.Equipo} - {UsuarioConectado.Rol} - {UsuarioConectado.Pais}";
                             }
                             else
                             {
@@ -88,11 +90,10 @@ namespace OSoftPF
             }
         }
 
-
         private void btnControlUsuarios_Click(object sender, EventArgs e)
         {
             // Verificar el permiso del label
-            if (lblPermiso.Text == "Administrador" || lblPermiso.Text == "Coordinador")
+            if (UsuarioConectado.Permiso == "Administrador" || UsuarioConectado.Permiso == "Coordinador")
             {
                 // Verificar el rol del usuario en la base de datos
                 try
@@ -103,7 +104,7 @@ namespace OSoftPF
                         string query = "SELECT Rol FROM usuarios WHERE idusuario = @idUsuario";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
-                            cmd.Parameters.AddWithValue("@idUsuario", IdUsuario);
+                            cmd.Parameters.AddWithValue("@idUsuario", UsuarioConectado.IdUsuario);
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
                                 if (reader.Read())
@@ -137,7 +138,6 @@ namespace OSoftPF
                 MessageBox.Show("No tiene los permisos necesarios para acceder a esta función.");
                 btnControlUsuarios.Enabled = false;
             }
-
         }
 
         private void labelPermiso_TextChanged(object sender, EventArgs e)
@@ -149,30 +149,30 @@ namespace OSoftPF
         private void VistaDeAdministrador()
         {
             // Verifica si el texto del label es igual a "Administrador"
-            if (lblPermiso.Text == "Administrador")
+            if (UsuarioConectado.Permiso == "Administrador")
             {
                 // Si es igual, muestra el botón y lo habilita
-                btnAdministrador.Visible = true;
-                btnAdministrador.Enabled = true;
+                btnAdministracion.Visible = true;
+                btnAdministracion.Enabled = true;
             }
             else
             {
                 // Si no es igual, oculta el botón y lo deshabilita
-                btnAdministrador.Visible = false;
-                btnAdministrador.Enabled = false;
+                btnAdministracion.Visible = false;
+                btnAdministracion.Enabled = false;
             }
         }
 
-        private void btnAdministrador_Click(object sender, EventArgs e)
+        private void btnAdministracion_Click(object sender, EventArgs e)
         {
             Administrador administrador = new Administrador();
             administrador.ShowDialog();
         }
 
-
         private void AdministrarControlUsuarios()
-        {// Verificar el permiso del label y el rol del usuario al cargar el formulario
-            if (lblPermiso.Text == "Administrador" || lblPermiso.Text == "Coordinador")
+        {
+            // Verificar el permiso del label y el rol del usuario al cargar el formulario
+            if (UsuarioConectado.Permiso == "Administrador" || UsuarioConectado.Permiso == "Coordinador")
             {
                 try
                 {
@@ -182,7 +182,7 @@ namespace OSoftPF
                         string query = "SELECT Rol FROM usuarios WHERE idusuario = @idUsuario";
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
-                            cmd.Parameters.AddWithValue("@idUsuario", IdUsuario);
+                            cmd.Parameters.AddWithValue("@idUsuario", UsuarioConectado.IdUsuario);
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
                                 if (reader.Read())
@@ -216,7 +216,6 @@ namespace OSoftPF
             }
         }
 
-
         private void RegistrarSalidaSesion(int idUsuario, string username)
         {
             try
@@ -237,6 +236,29 @@ namespace OSoftPF
             catch (Exception ex)
             {
                 MessageBox.Show("Error al registrar la sesión: " + ex.Message);
+            }
+        }
+
+        private void btnConfiguracion_Click(object sender, EventArgs e)
+        {
+            Configuracion configuracion = new Configuracion();
+            configuracion.ShowDialog();
+        }
+
+        private void ConfiguracionBotonConfiguracion()
+        {
+            // Verifica si el usuario es "juastacio" y tiene permiso de "Administrador"
+            if (UsuarioConectado.Usuario == "JUASTACIO" && UsuarioConectado.Permiso == "Administrador")
+            {
+                // Si cumple las condiciones, muestra el botón y lo habilita
+                btnConfiguracion.Visible = true;
+                btnConfiguracion.Enabled = true;
+            }
+            else
+            {
+                // Si no cumple las condiciones, oculta el botón y lo deshabilita
+                btnConfiguracion.Visible = false;
+                btnConfiguracion.Enabled = false;
             }
         }
 

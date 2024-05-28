@@ -10,12 +10,17 @@ using System.Windows.Forms;
 
 namespace OSoftPF
 {
-    public partial class Administrador : Form
+    public partial class Configuracion : Form
     {
-        public Administrador()
+        public Configuracion()
         {
             InitializeComponent();
         }
 
+        private void btnHerramientas_Click(object sender, EventArgs e)
+        {
+            Herramientas herramientas = new Herramientas();
+            herramientas.ShowDialog();
+        }
     }
 }
