@@ -43,6 +43,8 @@ namespace OSoftPF
             cboHerramienta.Items.Add("Equipos");
             cboHerramienta.Items.Add("Roles");
             cboHerramienta.Items.Add("Paises");
+            cboHerramienta.Items.Add("Temporada");
+
         }
 
         private void cboHerramienta_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,6 +68,9 @@ namespace OSoftPF
                         break;
                     case "Paises":
                         LoadPaisesData();
+                        break;
+                    case "Temporada":
+                        LoadTemporadaData();
                         break;
                     default:
                         MessageBox.Show("Opción no válida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -162,6 +167,28 @@ namespace OSoftPF
             }
         }
 
+        private void LoadTemporadaData()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM Temporada";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    dgvHerramienta.DataSource = dataTable;
+
+                    AdjustColumnSizes();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                }
+            }
+        }
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
@@ -202,6 +229,9 @@ namespace OSoftPF
                     break;
                 case "Paises":
                     InsertarEnPaises();
+                    break;
+                case "Temporada":
+                    InsertarEnTemporada();
                     break;
                 default:
                     MessageBox.Show("Opción no válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -432,6 +462,62 @@ namespace OSoftPF
             }
         }
 
+        private void InsertarEnTemporada()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Verificar si el código ya existe en la base de datos
+                    string checkQuery = "SELECT COUNT(*) FROM Temporada WHERE CodigoTemporada = @Temporada";
+                    using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@temporada", txtCodigo.Text);
+                        int count = (int)checkCommand.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            MessageBox.Show("El código ya existe en la base de datos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            LimpiarCampos();
+                            return;
+                        }
+                    }
+
+                    // Si el código no existe, proceder con la inserción
+                    string query = "INSERT INTO Temporada (CodigoTemporada, NombreTemporada, EstadoTemporada) VALUES (@Codigo, @Nombre, @Estado)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", txtCodigo.Text);
+                        command.Parameters.AddWithValue("@Nombre", txtNombre.Text);
+                        command.Parameters.AddWithValue("@Estado", cboEstado.SelectedItem.ToString());
+
+                        int result = command.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            MessageBox.Show("Registro agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            LoadTemporadaData();
+                            LimpiarCampos();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo agregar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    MessageBox.Show("Error de SQL al agregar el registro: " + sqlEx.Message, "Error de SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al agregar el registro: " + ex.Message, "Error General", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void LimpiarCampos()
         {
             txtCodigo.Clear();
@@ -506,6 +592,9 @@ namespace OSoftPF
                     break;
                 case "Paises":
                     ActualizarEnPaises();
+                    break;
+                case "Temporada":
+                    ActualizarEnTemporada();    
                     break;
                 default:
                     MessageBox.Show("Opción no válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -734,6 +823,87 @@ namespace OSoftPF
                                     MessageBox.Show("¡Registro actualizado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     LoadPaisesData();
+                                    LimpiarCampos();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No se pudo actualizar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al actualizar el registro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un registro para actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ActualizarEnTemporada()
+        {
+            // Verificar si hay una fila seleccionada en el DataGridView
+            if (dgvHerramienta.SelectedRows.Count > 0)
+            {
+                // Verificar si los datos son válidos usando un método externo
+                if (!DatosValidos())
+                {
+                    MessageBox.Show("Por favor, completa todos los campos antes de actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Obtener los valores de los controles
+                string nuevoValorCodigo = txtCodigo.Text;
+                string nuevoValorNombre = txtNombre.Text;
+
+                // Verificar si se ha seleccionado un estado en el ComboBox
+                string nuevoValorEstado = cboEstado.SelectedItem != null ? cboEstado.SelectedItem.ToString() : "";
+
+                // Verificar si se seleccionó un estado válido
+                if (string.IsNullOrEmpty(nuevoValorEstado))
+                {
+                    MessageBox.Show("Por favor, selecciona un estado válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Obtener el ID del registro seleccionado en el DataGridView
+                int IdPais = Convert.ToInt32(dgvHerramienta.SelectedRows[0].Cells["IdTemporada"].Value);
+
+                // Construir la consulta SQL para actualizar el registro
+                string query = "UPDATE Temporada SET CodigoTemporada = @ValorCodigo, NombreTemporada = @ValorNombre, EstadoTemporada = @ValorEstado WHERE IdTemporada = @IdTemporada";
+
+                // Confirmar la actualización con el usuario
+                DialogResult result = MessageBox.Show("¿Estás seguro de que deseas actualizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Ejecutar la consulta SQL para actualizar el registro
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            connection.Open();
+                            using (SqlCommand command = new SqlCommand(query, connection))
+                            {
+                                // Asignar los parámetros
+                                command.Parameters.AddWithValue("@ValorCodigo", nuevoValorCodigo);
+                                command.Parameters.AddWithValue("@ValorNombre", nuevoValorNombre);
+                                command.Parameters.AddWithValue("@ValorEstado", nuevoValorEstado);
+                                command.Parameters.AddWithValue("@IdTemporada", IdPais);
+
+                                // Ejecutar la consulta
+                                int rowsAffected = command.ExecuteNonQuery();
+
+                                // Mostrar mensaje de éxito
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("¡Registro actualizado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    LoadTemporadaData();
                                     LimpiarCampos();
                                 }
                                 else

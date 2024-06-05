@@ -33,20 +33,20 @@
             this.lblNombre = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnConfiguracion = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.btnCD = new System.Windows.Forms.Button();
             this.btnAdministracion = new System.Windows.Forms.Button();
-            this.btn = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.btnCMI = new System.Windows.Forms.Button();
+            this.btnVacio = new System.Windows.Forms.Button();
+            this.btnCL = new System.Windows.Forms.Button();
+            this.btnCR = new System.Windows.Forms.Button();
+            this.btnCO = new System.Windows.Forms.Button();
+            this.btnCE = new System.Windows.Forms.Button();
             this.btnControlUsuarios = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblId = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblHerramientas = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnMI = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,16 +87,16 @@
             // 
             this.groupBox1.BackColor = System.Drawing.Color.SteelBlue;
             this.groupBox1.Controls.Add(this.btnConfiguracion);
-            this.groupBox1.Controls.Add(this.button9);
+            this.groupBox1.Controls.Add(this.btnCD);
             this.groupBox1.Controls.Add(this.btnAdministracion);
-            this.groupBox1.Controls.Add(this.btn);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button7);
-            this.groupBox1.Controls.Add(this.button8);
-            this.groupBox1.Controls.Add(this.btnCMI);
+            this.groupBox1.Controls.Add(this.btnVacio);
+            this.groupBox1.Controls.Add(this.btnCL);
+            this.groupBox1.Controls.Add(this.btnCR);
+            this.groupBox1.Controls.Add(this.btnCO);
+            this.groupBox1.Controls.Add(this.btnCE);
             this.groupBox1.Controls.Add(this.btnControlUsuarios);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnMI);
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Location = new System.Drawing.Point(-10, -10);
             this.groupBox1.Name = "groupBox1";
@@ -106,9 +106,9 @@
             // 
             // btnConfiguracion
             // 
-            this.btnConfiguracion.BackColor = System.Drawing.Color.White;
-            this.btnConfiguracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfiguracion.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnConfiguracion.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnConfiguracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfiguracion.ForeColor = System.Drawing.Color.White;
             this.btnConfiguracion.Location = new System.Drawing.Point(50, 569);
             this.btnConfiguracion.Name = "btnConfiguracion";
             this.btnConfiguracion.Size = new System.Drawing.Size(257, 50);
@@ -117,23 +117,23 @@
             this.btnConfiguracion.UseVisualStyleBackColor = false;
             this.btnConfiguracion.Click += new System.EventHandler(this.btnConfiguracion_Click);
             // 
-            // button9
+            // btnCD
             // 
-            this.button9.BackColor = System.Drawing.Color.White;
-            this.button9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button9.ForeColor = System.Drawing.Color.SteelBlue;
-            this.button9.Location = new System.Drawing.Point(50, 260);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(257, 50);
-            this.button9.TabIndex = 14;
-            this.button9.Text = "Discipulado";
-            this.button9.UseVisualStyleBackColor = false;
+            this.btnCD.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCD.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCD.ForeColor = System.Drawing.Color.White;
+            this.btnCD.Location = new System.Drawing.Point(50, 260);
+            this.btnCD.Name = "btnCD";
+            this.btnCD.Size = new System.Drawing.Size(257, 50);
+            this.btnCD.TabIndex = 14;
+            this.btnCD.Text = "Discipulado";
+            this.btnCD.UseVisualStyleBackColor = false;
             // 
             // btnAdministracion
             // 
-            this.btnAdministracion.BackColor = System.Drawing.Color.White;
-            this.btnAdministracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdministracion.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnAdministracion.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnAdministracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdministracion.ForeColor = System.Drawing.Color.White;
             this.btnAdministracion.Location = new System.Drawing.Point(50, 510);
             this.btnAdministracion.Name = "btnAdministracion";
             this.btnAdministracion.Size = new System.Drawing.Size(257, 50);
@@ -142,70 +142,70 @@
             this.btnAdministracion.UseVisualStyleBackColor = false;
             this.btnAdministracion.Click += new System.EventHandler(this.btnAdministracion_Click);
             // 
-            // btn
+            // btnVacio
             // 
-            this.btn.BackColor = System.Drawing.Color.White;
-            this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn.ForeColor = System.Drawing.Color.SteelBlue;
-            this.btn.Location = new System.Drawing.Point(50, 460);
-            this.btn.Name = "btn";
-            this.btn.Size = new System.Drawing.Size(257, 50);
-            this.btn.TabIndex = 11;
-            this.btn.UseVisualStyleBackColor = false;
+            this.btnVacio.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnVacio.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVacio.ForeColor = System.Drawing.Color.White;
+            this.btnVacio.Location = new System.Drawing.Point(50, 460);
+            this.btnVacio.Name = "btnVacio";
+            this.btnVacio.Size = new System.Drawing.Size(257, 50);
+            this.btnVacio.TabIndex = 11;
+            this.btnVacio.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnCL
             // 
-            this.button3.BackColor = System.Drawing.Color.White;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.button3.Location = new System.Drawing.Point(50, 410);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(257, 50);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "Logística";
-            this.button3.UseVisualStyleBackColor = false;
+            this.btnCL.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCL.ForeColor = System.Drawing.Color.White;
+            this.btnCL.Location = new System.Drawing.Point(50, 410);
+            this.btnCL.Name = "btnCL";
+            this.btnCL.Size = new System.Drawing.Size(257, 50);
+            this.btnCL.TabIndex = 8;
+            this.btnCL.Text = "Logística";
+            this.btnCL.UseVisualStyleBackColor = false;
             // 
-            // button7
+            // btnCR
             // 
-            this.button7.BackColor = System.Drawing.Color.White;
-            this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.ForeColor = System.Drawing.Color.SteelBlue;
-            this.button7.Location = new System.Drawing.Point(50, 360);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(257, 50);
-            this.button7.TabIndex = 12;
-            this.button7.Text = "Recursos";
-            this.button7.UseVisualStyleBackColor = false;
+            this.btnCR.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCR.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCR.ForeColor = System.Drawing.Color.White;
+            this.btnCR.Location = new System.Drawing.Point(50, 360);
+            this.btnCR.Name = "btnCR";
+            this.btnCR.Size = new System.Drawing.Size(257, 50);
+            this.btnCR.TabIndex = 12;
+            this.btnCR.Text = "Recursos";
+            this.btnCR.UseVisualStyleBackColor = false;
             // 
-            // button8
+            // btnCO
             // 
-            this.button8.BackColor = System.Drawing.Color.White;
-            this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.ForeColor = System.Drawing.Color.SteelBlue;
-            this.button8.Location = new System.Drawing.Point(50, 310);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(257, 50);
-            this.button8.TabIndex = 13;
-            this.button8.Text = "Oración";
-            this.button8.UseVisualStyleBackColor = false;
+            this.btnCO.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCO.ForeColor = System.Drawing.Color.White;
+            this.btnCO.Location = new System.Drawing.Point(50, 310);
+            this.btnCO.Name = "btnCO";
+            this.btnCO.Size = new System.Drawing.Size(257, 50);
+            this.btnCO.TabIndex = 13;
+            this.btnCO.Text = "Oración";
+            this.btnCO.UseVisualStyleBackColor = false;
             // 
-            // btnCMI
+            // btnCE
             // 
-            this.btnCMI.BackColor = System.Drawing.Color.White;
-            this.btnCMI.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCMI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.btnCMI.Location = new System.Drawing.Point(50, 160);
-            this.btnCMI.Name = "btnCMI";
-            this.btnCMI.Size = new System.Drawing.Size(257, 50);
-            this.btnCMI.TabIndex = 15;
-            this.btnCMI.Text = "Coordinador de Equipo";
-            this.btnCMI.UseVisualStyleBackColor = false;
+            this.btnCE.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCE.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCE.ForeColor = System.Drawing.Color.White;
+            this.btnCE.Location = new System.Drawing.Point(50, 160);
+            this.btnCE.Name = "btnCE";
+            this.btnCE.Size = new System.Drawing.Size(257, 50);
+            this.btnCE.TabIndex = 15;
+            this.btnCE.Text = "Coordinador de Equipo";
+            this.btnCE.UseVisualStyleBackColor = false;
             // 
             // btnControlUsuarios
             // 
-            this.btnControlUsuarios.BackColor = System.Drawing.Color.White;
-            this.btnControlUsuarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnControlUsuarios.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnControlUsuarios.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnControlUsuarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnControlUsuarios.ForeColor = System.Drawing.Color.White;
             this.btnControlUsuarios.Location = new System.Drawing.Point(50, 110);
             this.btnControlUsuarios.Name = "btnControlUsuarios";
             this.btnControlUsuarios.Size = new System.Drawing.Size(257, 50);
@@ -269,17 +269,18 @@
             this.lblHerramientas.TabIndex = 4;
             this.lblHerramientas.Text = "ZONA - EQUIPO - ROL - PAIS";
             // 
-            // button2
+            // btnMI
             // 
-            this.button2.BackColor = System.Drawing.Color.White;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.button2.Location = new System.Drawing.Point(50, 210);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(257, 50);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Movilización de Iglesias";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnMI.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnMI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMI.ForeColor = System.Drawing.Color.White;
+            this.btnMI.Location = new System.Drawing.Point(50, 210);
+            this.btnMI.Name = "btnMI";
+            this.btnMI.Size = new System.Drawing.Size(257, 50);
+            this.btnMI.TabIndex = 7;
+            this.btnMI.Text = "Movilización de Iglesias";
+            this.btnMI.UseVisualStyleBackColor = false;
+            this.btnMI.Click += new System.EventHandler(this.btnMI_Click);
             // 
             // MenuPrincipal
             // 
@@ -315,14 +316,14 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.Button btnControlUsuarios;
-        private System.Windows.Forms.Button btnCMI;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button btn;
+        private System.Windows.Forms.Button btnCE;
+        private System.Windows.Forms.Button btnCD;
+        private System.Windows.Forms.Button btnCO;
+        private System.Windows.Forms.Button btnCR;
+        private System.Windows.Forms.Button btnVacio;
         private System.Windows.Forms.Button btnAdministracion;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnCL;
+        private System.Windows.Forms.Button btnMI;
         private System.Windows.Forms.Label lblId;
         private System.Windows.Forms.Button btnConfiguracion;
     }

@@ -262,5 +262,22 @@ namespace OSoftPF
             }
         }
 
+        private void btnMI_Click(object sender, EventArgs e)
+        {
+            GestionCM openCM = new GestionCM();
+            openCM.ShowDialog();
+            /*
+            if (UsuarioConectado.Rol == "CO")
+            {
+                GestionCM openMI = new GestionCM();
+                openMI.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Su Rol no corresponde a esta acción.", "Error");
+            }
+            */
+        }
+
     }
 }
