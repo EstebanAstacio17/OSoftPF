@@ -100,6 +100,7 @@
             this.btnAgregar.TabIndex = 4;
             this.btnAgregar.Text = "Agregar 1";
             this.btnAgregar.UseVisualStyleBackColor = false;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // btnImportar
             // 
@@ -112,6 +113,7 @@
             this.btnImportar.TabIndex = 5;
             this.btnImportar.Text = "Importar";
             this.btnImportar.UseVisualStyleBackColor = false;
+            this.btnImportar.Click += new System.EventHandler(this.btnImportar_Click);
             // 
             // label1
             // 

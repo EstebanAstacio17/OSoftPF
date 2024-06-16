@@ -44,6 +44,8 @@ namespace OSoftPF
             cboHerramienta.Items.Add("Roles");
             cboHerramienta.Items.Add("Paises");
             cboHerramienta.Items.Add("Temporada");
+            cboHerramienta.Items.Add("Denominacion");
+            cboHerramienta.Items.Add("Tipo Organizacion");
 
         }
 
@@ -71,6 +73,12 @@ namespace OSoftPF
                         break;
                     case "Temporada":
                         LoadTemporadaData();
+                        break;
+                    case "Denominacion":
+                        LoadDenominacionData();
+                        break;
+                    case "Tipo Organizacion":
+                        LoadTipoOrganizacionData();
                         break;
                     default:
                         MessageBox.Show("Opción no válida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -189,6 +197,50 @@ namespace OSoftPF
             }
         }
 
+        private void LoadDenominacionData()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM Denominacion";
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    dgvHerramienta.DataSource = dataTable;
+
+                    AdjustColumnSizes();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                }
+            }
+        }
+
+        private void LoadTipoOrganizacionData()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT * FROM TipoOrganizacion"; 
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+                    dgvHerramienta.DataSource = dataTable;
+
+                    AdjustColumnSizes();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                }
+            }
+        }
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
@@ -232,6 +284,12 @@ namespace OSoftPF
                     break;
                 case "Temporada":
                     InsertarEnTemporada();
+                    break;
+                case "Denominacion":
+                    InsertarEnDenominacion();
+                    break;
+                case "Tipo Organizacion":
+                    InsertarEnTipoOrganizacion();
                     break;
                 default:
                     MessageBox.Show("Opción no válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -518,6 +576,118 @@ namespace OSoftPF
             }
         }
 
+        private void InsertarEnDenominacion()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Verificar si el código ya existe en la base de datos
+                    string checkQuery = "SELECT COUNT(*) FROM Denominacion WHERE CodigoDenominacion = @Codigo";
+                    using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@Codigo", txtCodigo.Text);
+                        int count = (int)checkCommand.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            MessageBox.Show("El código ya existe en la base de datos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            LimpiarCampos();
+                            return;
+                        }
+                    }
+
+                    // Si el código no existe, proceder con la inserción
+                    string query = "INSERT INTO Denominacion (CodigoDenominacion, Denominacion, EstadoDenominacion) VALUES (@Codigo, @Nombre, @Estado)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", txtCodigo.Text);
+                        command.Parameters.AddWithValue("@Nombre", txtNombre.Text);
+                        command.Parameters.AddWithValue("@Estado", cboEstado.SelectedItem.ToString());
+
+                        int result = command.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            MessageBox.Show("Registro agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            LoadDenominacionData();
+                            LimpiarCampos();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo agregar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    MessageBox.Show("Error de SQL al agregar el registro: " + sqlEx.Message, "Error de SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al agregar el registro: " + ex.Message, "Error General", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void InsertarEnTipoOrganizacion()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Verificar si el código ya existe en la base de datos
+                    string checkQuery = "SELECT COUNT(*) FROM TipoOrganizacion WHERE CodigoTipoOrganizacion = @Codigo";
+                    using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
+                    {
+                        checkCommand.Parameters.AddWithValue("@Codigo", txtCodigo.Text);
+                        int count = (int)checkCommand.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            MessageBox.Show("El código ya existe en la base de datos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            LimpiarCampos();
+                            return;
+                        }
+                    }
+
+                    // Si el código no existe, proceder con la inserción
+                    string query = "INSERT INTO TipoOrganizacion (CodigoTipoOrganizacion, TipoOrganizacion, EstadoTipoOrganizacion) VALUES (@Codigo, @Nombre, @Estado)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", txtCodigo.Text);
+                        command.Parameters.AddWithValue("@Nombre", txtNombre.Text);
+                        command.Parameters.AddWithValue("@Estado", cboEstado.SelectedItem.ToString());
+
+                        int result = command.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            MessageBox.Show("Registro agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            LoadTipoOrganizacionData();
+                            LimpiarCampos();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo agregar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    MessageBox.Show("Error de SQL al agregar el registro: " + sqlEx.Message, "Error de SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al agregar el registro: " + ex.Message, "Error General", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void LimpiarCampos()
         {
             txtCodigo.Clear();
@@ -595,6 +765,12 @@ namespace OSoftPF
                     break;
                 case "Temporada":
                     ActualizarEnTemporada();    
+                    break;
+                case "Denominacion":
+                    ActualizarEnDenominacion();
+                    break;
+                case "TipoOrganizacion":
+                    ActualizarEnTipoOrganizacion();
                     break;
                 default:
                     MessageBox.Show("Opción no válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -985,6 +1161,150 @@ namespace OSoftPF
                                     MessageBox.Show("¡Registro actualizado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                     LoadRolesData();
+                                    LimpiarCampos();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No se pudo actualizar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al actualizar el registro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un registro para actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ActualizarEnDenominacion()
+        {
+            // Verificar si hay una fila seleccionada en el DataGridView
+            if (dgvHerramienta.SelectedRows.Count > 0)
+            {
+                // Verificar si los datos son válidos
+                if (!DatosValidos())
+                {
+                    MessageBox.Show("Por favor, completa todos los campos antes de actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Obtener los valores de los controles
+                string nuevoValorCodigo = txtCodigo.Text;
+                string nuevoValorNombre = txtNombre.Text;
+                string nuevoValorEstado = cboEstado.SelectedItem.ToString();
+
+                // Obtener el ID del registro seleccionado en el DataGridView
+                int IdDenominacion = Convert.ToInt32(dgvHerramienta.SelectedRows[0].Cells["IdDenominacion"].Value);
+
+                // Construir la consulta SQL para actualizar el registro
+                string query = "UPDATE Denominacion SET CodigoDenominacion = @ValorCodigo, Denominacion = @ValorNombre, EstadoDenominacion = @ValorEstado WHERE IdDenominacion = @IdDenominacion";
+
+                // Confirmar la actualización con el usuario
+                DialogResult result = MessageBox.Show("¿Estás seguro de que deseas actualizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Ejecutar la consulta SQL para actualizar el registro
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            connection.Open();
+                            using (SqlCommand command = new SqlCommand(query, connection))
+                            {
+                                // Asignar los parámetros
+                                command.Parameters.AddWithValue("@ValorCodigo", nuevoValorCodigo);
+                                command.Parameters.AddWithValue("@ValorNombre", nuevoValorNombre);
+                                command.Parameters.AddWithValue("@ValorEstado", nuevoValorEstado);
+                                command.Parameters.AddWithValue("@IdDenominacion", IdDenominacion);
+
+                                // Ejecutar la consulta
+                                int rowsAffected = command.ExecuteNonQuery();
+
+                                // Mostrar mensaje de éxito
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("¡Registro actualizado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    LoadDenominacionData();
+                                    LimpiarCampos();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No se pudo actualizar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al actualizar el registro: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un registro para actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ActualizarEnTipoOrganizacion()
+        {
+            // Verificar si hay una fila seleccionada en el DataGridView
+            if (dgvHerramienta.SelectedRows.Count > 0)
+            {
+                // Verificar si los datos son válidos
+                if (!DatosValidos())
+                {
+                    MessageBox.Show("Por favor, completa todos los campos antes de actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Obtener los valores de los controles
+                string nuevoValorCodigo = txtCodigo.Text;
+                string nuevoValorNombre = txtNombre.Text;
+                string nuevoValorEstado = cboEstado.SelectedItem.ToString();
+
+                // Obtener el ID del registro seleccionado en el DataGridView
+                int IdTipoOrganizacion = Convert.ToInt32(dgvHerramienta.SelectedRows[0].Cells["IdTipoOrganizacion"].Value);
+
+                // Construir la consulta SQL para actualizar el registro
+                string query = "UPDATE TipoOrganizacion SET CodigoTipoOrganizacion = @ValorCodigo, TipoOrganizacion = @ValorNombre, EstadoTipoOrganizacion = @ValorEstado WHERE IdTipoOrganizacion = @IdTipoOrganizacion";
+
+                // Confirmar la actualización con el usuario
+                DialogResult result = MessageBox.Show("¿Estás seguro de que deseas actualizar el registro?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Ejecutar la consulta SQL para actualizar el registro
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            connection.Open();
+                            using (SqlCommand command = new SqlCommand(query, connection))
+                            {
+                                // Asignar los parámetros
+                                command.Parameters.AddWithValue("@ValorCodigo", nuevoValorCodigo);
+                                command.Parameters.AddWithValue("@ValorNombre", nuevoValorNombre);
+                                command.Parameters.AddWithValue("@ValorEstado", nuevoValorEstado);
+                                command.Parameters.AddWithValue("@IdTipoOrganizacion", IdTipoOrganizacion);
+
+                                // Ejecutar la consulta
+                                int rowsAffected = command.ExecuteNonQuery();
+
+                                // Mostrar mensaje de éxito
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("¡Registro actualizado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                    LoadTipoOrganizacionData();
                                     LimpiarCampos();
                                 }
                                 else

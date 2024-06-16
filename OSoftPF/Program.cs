@@ -16,7 +16,7 @@ namespace OSoftPF
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login()); // Herramientas ControlUsuarios MenuPrincipal
+            Application.Run(new Login()); // Herramientas ControlUsuarios MenuPrincipal Login AgregarIglesia
         }
     }
 }
