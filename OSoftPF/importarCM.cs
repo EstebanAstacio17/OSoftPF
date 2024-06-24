@@ -13,7 +13,7 @@ using System.Configuration;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms.VisualStyles;
 using System.IO;
-using ExcelDataReader;  // Necesitarás instalar ExcelDataReader a través de NuGet
+using ExcelDataReader;
 
 namespace OSoftPF
 {
@@ -24,6 +24,15 @@ namespace OSoftPF
         public ImportarCM()
         {
             InitializeComponent();
+
+            btnGuardar.Enabled = false;
+        }
+
+        private void ImportarCM_Load(object sender, EventArgs e)
+        {
+            TemporadasCM();
+
+            cboTemporada.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void btnSeleccionar_Click(object sender, EventArgs e)
@@ -118,6 +127,11 @@ namespace OSoftPF
                         }
                     }
                     MessageBox.Show("Datos guardados exitosamente.");
+
+                    Limpieza();
+
+                    // Cerrar el formulario
+                    this.Close();
                 }
             }
             catch (SqlException ex)
@@ -132,8 +146,6 @@ namespace OSoftPF
 
         private void GuardarFilaEnBaseDeDatos(SqlConnection connection, DataGridViewRow row)
         {
-            if (!ValidarFila(row)) return;
-
             string nombreOrganizacion = row.Cells[0].Value?.ToString();
             string documentoOrganizacion = row.Cells[1].Value?.ToString();
             string telefonoOficina = row.Cells[2].Value?.ToString();
@@ -156,16 +168,11 @@ namespace OSoftPF
             string celularLider = row.Cells[17].Value?.ToString();
             string correoLider = row.Cells[18].Value?.ToString();
 
-            if (!int.TryParse(row.Cells[19].Value?.ToString(), out int boy))
-            {
-                MessageBox.Show("Error en el formato del campo 'Boy'");
-                return;
-            }
-            if (!int.TryParse(row.Cells[20].Value?.ToString(), out int girl))
-            {
-                MessageBox.Show("Error en el formato del campo 'Girls'");
-                return;
-            }
+            int.TryParse(row.Cells[19].Value?.ToString(), out int boy);
+            int.TryParse(row.Cells[20].Value?.ToString(), out int girl);
+
+            // Obtener el valor seleccionado en cboTemporada
+            string temporada = cboTemporada.SelectedItem?.ToString();
 
             using (SqlCommand cmd = new SqlCommand())
             {
@@ -176,13 +183,13 @@ namespace OSoftPF
                     OUTPUT INSERTED.IdOrganizacion
                     VALUES (@NombreOrganizacion, @DocumentoOrganizacion, @TelefonoOficina, @DireccionFisica, @CorreoElectronico, @TipoOrganizacion, @Denominacion)";
                 cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@NombreOrganizacion", nombreOrganizacion);
-                cmd.Parameters.AddWithValue("@DocumentoOrganizacion", documentoOrganizacion);
-                cmd.Parameters.AddWithValue("@TelefonoOficina", telefonoOficina);
-                cmd.Parameters.AddWithValue("@DireccionFisica", direccionFisica);
-                cmd.Parameters.AddWithValue("@CorreoElectronico", correoElectronico);
-                cmd.Parameters.AddWithValue("@TipoOrganizacion", tipoOrganizacion);
-                cmd.Parameters.AddWithValue("@Denominacion", denominacion);
+                cmd.Parameters.AddWithValue("@NombreOrganizacion", nombreOrganizacion ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DocumentoOrganizacion", documentoOrganizacion ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TelefonoOficina", telefonoOficina ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DireccionFisica", direccionFisica ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@CorreoElectronico", correoElectronico ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TipoOrganizacion", tipoOrganizacion ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Denominacion", denominacion ?? (object)DBNull.Value);
                 int idOrganizacion = (int)cmd.ExecuteScalar();
 
                 cmd.CommandText = @"
@@ -190,12 +197,12 @@ namespace OSoftPF
                     VALUES (@IdOrganizacion, @NombrecompletoPastor, @DocumentoPastor, @DireccionPastor, @TelefonoPastor, @CelularPastor, @CorreoPastor)";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@IdOrganizacion", idOrganizacion);
-                cmd.Parameters.AddWithValue("@NombrecompletoPastor", nombrecompletoPastor);
-                cmd.Parameters.AddWithValue("@DocumentoPastor", documentoPastor);
-                cmd.Parameters.AddWithValue("@DireccionPastor", direccionPastor);
-                cmd.Parameters.AddWithValue("@TelefonoPastor", telefonoPastor);
-                cmd.Parameters.AddWithValue("@CelularPastor", celularPastor);
-                cmd.Parameters.AddWithValue("@CorreoPastor", correoPastor);
+                cmd.Parameters.AddWithValue("@NombrecompletoPastor", nombrecompletoPastor ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DocumentoPastor", documentoPastor ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DireccionPastor", direccionPastor ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TelefonoPastor", telefonoPastor ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@CelularPastor", celularPastor ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@CorreoPastor", correoPastor ?? (object)DBNull.Value);
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = @"
@@ -203,12 +210,12 @@ namespace OSoftPF
                     VALUES (@IdOrganizacion, @NombrecompletoLider, @DocumentoLider, @DireccionLider, @TelefonoLider, @CelularLider, @CorreoLider)";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@IdOrganizacion", idOrganizacion);
-                cmd.Parameters.AddWithValue("@NombrecompletoLider", nombrecompletoLider);
-                cmd.Parameters.AddWithValue("@DocumentoLider", documentoLider);
-                cmd.Parameters.AddWithValue("@DireccionLider", direccionLider);
-                cmd.Parameters.AddWithValue("@TelefonoLider", telefonoLider);
-                cmd.Parameters.AddWithValue("@CelularLider", celularLider);
-                cmd.Parameters.AddWithValue("@CorreoLider", correoLider);
+                cmd.Parameters.AddWithValue("@NombrecompletoLider", nombrecompletoLider ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DocumentoLider", documentoLider ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DireccionLider", direccionLider ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TelefonoLider", telefonoLider ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@CelularLider", celularLider ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@CorreoLider", correoLider ?? (object)DBNull.Value);
                 cmd.ExecuteNonQuery();
 
                 cmd.CommandText = @"
@@ -219,33 +226,35 @@ namespace OSoftPF
                 cmd.Parameters.AddWithValue("@Boy", boy);
                 cmd.Parameters.AddWithValue("@Girl", girl);
                 cmd.ExecuteNonQuery();
+
+                cmd.CommandText = @"
+                    INSERT INTO DatosTemporadaCM (IdOrganizacion, ZonaCM, EquipoCM, PaisCM, TemporadaCM)
+                    VALUES (@IdOrganizacion, @ZonaCM, @EquipoCM, @PaisCM, @Temporada)";
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@IdOrganizacion", idOrganizacion);
+                cmd.Parameters.AddWithValue("@ZonaCM", UsuarioConectado.Zona ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@EquipoCM", UsuarioConectado.Equipo ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@PaisCM", UsuarioConectado.Pais ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Temporada", temporada ?? (object)DBNull.Value);
+                cmd.ExecuteNonQuery();
             }
-
-            this.Close();
-        }
-
-
-        private bool ValidarFila(DataGridViewRow row)
-        {
-            foreach (DataGridViewCell cell in row.Cells)
-            {
-                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
-                {
-                    MessageBox.Show("Hay campos vacíos en la fila.");
-                    return false;
-                }
-            }
-            return true;
         }
 
         private void btnValidar_Click(object sender, EventArgs e)
         {
+            // Verificar si hay filas en el DataGridView para validar
+            if (dgvSeleccionados.RowCount == 0)
+            {
+                MessageBox.Show("No hay filas para validar. Seleccione un archivo primero.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             ValidarDatos();
         }
 
         private void ValidarDatos()
         {
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -256,7 +265,6 @@ namespace OSoftPF
 
                     bool rowHighlighted = false;
 
-                    // Validar NombreOrganizacion
                     string nombreOrganizacion = row.Cells["NombreOrganizacion"].Value?.ToString();
                     if (nombreOrganizacion != null && ExisteEnTabla(connection, "Organizacion", "NombreOrganizacion", nombreOrganizacion))
                     {
@@ -264,7 +272,6 @@ namespace OSoftPF
                         rowHighlighted = true;
                     }
 
-                    // Validar NombrecompletoPastor
                     string nombreCompletoPastor = row.Cells["NombrecompletoPastor"].Value?.ToString();
                     if (nombreCompletoPastor != null && ExisteEnTabla(connection, "Pastor", "NombrecompletoPastor", nombreCompletoPastor))
                     {
@@ -272,7 +279,6 @@ namespace OSoftPF
                         rowHighlighted = true;
                     }
 
-                    // Validar DocumentoPastor
                     string documentoPastor = row.Cells["DocumentoPastor"].Value?.ToString();
                     if (documentoPastor != null && ExisteEnTabla(connection, "Pastor", "DocumentoPastor", documentoPastor))
                     {
@@ -280,12 +286,16 @@ namespace OSoftPF
                         rowHighlighted = true;
                     }
 
-                    // Si la fila no ha sido resaltada, cambiar el color de fondo a blanco
                     if (!rowHighlighted)
                     {
                         row.DefaultCellStyle.BackColor = Color.White;
                     }
                 }
+
+                bool hayFilaEnRojo = dgvSeleccionados.Rows.Cast<DataGridViewRow>()
+                                      .Any(r => r.DefaultCellStyle.BackColor == Color.Red);
+
+                btnGuardar.Enabled = !hayFilaEnRojo;
             }
         }
 
@@ -300,8 +310,40 @@ namespace OSoftPF
             }
         }
 
-        private void btnEvaluar_Click(object sender, EventArgs e)
+        private void DgvSeleccionados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvSeleccionados.Rows[e.RowIndex];
+
+                string[] datos = new string[21];
+                for (int i = 0; i < datos.Length; i++)
+                {
+                    datos[i] = row.Cells[i].Value?.ToString() ?? string.Empty;
+                }
+
+                Evaluacion evaluacionForm = new Evaluacion();
+                evaluacionForm.SetDatos(datos);
+                evaluacionForm.Show();
+            }
+        }
+
+        private void TemporadasCM()
+        {
+            // Cargar el valor de CodigoTemporada en el ComboBox
+            cboTemporada.Items.Add(UsuarioConectado.CodigoTemporada);
+            if (cboTemporada.Items.Count > 0)
+            {
+                cboTemporada.SelectedIndex = 0; // Seleccionar el primer (y único) elemento
+            }
+        }
+
+        private void Limpieza()
+        {
+            // Limpiar el DataGridView
+            dgvSeleccionados.DataSource = null;
+            dgvSeleccionados.Rows.Clear();
+            dgvSeleccionados.Columns.Clear();
 
         }
     }

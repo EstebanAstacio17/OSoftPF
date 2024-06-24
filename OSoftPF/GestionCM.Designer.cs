@@ -36,8 +36,8 @@
             this.btnImportar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.cboTemporadas = new System.Windows.Forms.ComboBox();
-            this.cboAcciones = new System.Windows.Forms.ComboBox();
+            this.cboTemporada = new System.Windows.Forms.ComboBox();
+            this.cboEstadoCM = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnExportar = new System.Windows.Forms.Button();
@@ -56,6 +56,7 @@
             this.btnFiltrar.TabIndex = 0;
             this.btnFiltrar.Text = "Filtrar";
             this.btnFiltrar.UseVisualStyleBackColor = false;
+            this.btnFiltrar.Click += new System.EventHandler(this.btnFiltrar_Click);
             // 
             // txtBusqueda
             // 
@@ -84,10 +85,14 @@
             this.dgvGestionCM.BackgroundColor = System.Drawing.Color.White;
             this.dgvGestionCM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvGestionCM.Location = new System.Drawing.Point(12, 71);
+            this.dgvGestionCM.MultiSelect = false;
             this.dgvGestionCM.Name = "dgvGestionCM";
             this.dgvGestionCM.ReadOnly = true;
+            this.dgvGestionCM.RowHeadersVisible = false;
+            this.dgvGestionCM.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvGestionCM.Size = new System.Drawing.Size(950, 492);
             this.dgvGestionCM.TabIndex = 3;
+            this.dgvGestionCM.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGestionCM_CellDoubleClick);
             // 
             // btnAgregar
             // 
@@ -137,25 +142,25 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Temporada";
             // 
-            // cboTemporadas
+            // cboTemporada
             // 
-            this.cboTemporadas.BackColor = System.Drawing.Color.White;
-            this.cboTemporadas.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboTemporadas.FormattingEnabled = true;
-            this.cboTemporadas.Location = new System.Drawing.Point(711, 32);
-            this.cboTemporadas.Name = "cboTemporadas";
-            this.cboTemporadas.Size = new System.Drawing.Size(121, 28);
-            this.cboTemporadas.TabIndex = 8;
+            this.cboTemporada.BackColor = System.Drawing.Color.White;
+            this.cboTemporada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboTemporada.FormattingEnabled = true;
+            this.cboTemporada.Location = new System.Drawing.Point(711, 32);
+            this.cboTemporada.Name = "cboTemporada";
+            this.cboTemporada.Size = new System.Drawing.Size(121, 28);
+            this.cboTemporada.TabIndex = 8;
             // 
-            // cboAcciones
+            // cboEstadoCM
             // 
-            this.cboAcciones.BackColor = System.Drawing.Color.White;
-            this.cboAcciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboAcciones.FormattingEnabled = true;
-            this.cboAcciones.Location = new System.Drawing.Point(584, 32);
-            this.cboAcciones.Name = "cboAcciones";
-            this.cboAcciones.Size = new System.Drawing.Size(121, 28);
-            this.cboAcciones.TabIndex = 10;
+            this.cboEstadoCM.BackColor = System.Drawing.Color.White;
+            this.cboEstadoCM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboEstadoCM.FormattingEnabled = true;
+            this.cboEstadoCM.Location = new System.Drawing.Point(584, 32);
+            this.cboEstadoCM.Name = "cboEstadoCM";
+            this.cboEstadoCM.Size = new System.Drawing.Size(121, 28);
+            this.cboEstadoCM.TabIndex = 10;
             // 
             // label3
             // 
@@ -164,9 +169,9 @@
             this.label3.ForeColor = System.Drawing.Color.SteelBlue;
             this.label3.Location = new System.Drawing.Point(580, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 20);
+            this.label3.Size = new System.Drawing.Size(88, 20);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Acciones";
+            this.label3.Text = "Estado CM";
             // 
             // btnLimpiar
             // 
@@ -179,6 +184,7 @@
             this.btnLimpiar.TabIndex = 12;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnExportar
             // 
@@ -191,6 +197,7 @@
             this.btnExportar.TabIndex = 11;
             this.btnExportar.Text = "Exportar";
             this.btnExportar.UseVisualStyleBackColor = false;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
             // 
             // label4
             // 
@@ -212,9 +219,9 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnExportar);
-            this.Controls.Add(this.cboAcciones);
+            this.Controls.Add(this.cboEstadoCM);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.cboTemporadas);
+            this.Controls.Add(this.cboTemporada);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnImportar);
@@ -229,6 +236,7 @@
             this.Name = "GestionCM";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GestionCM";
+            this.Load += new System.EventHandler(this.GestionCM_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGestionCM)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -245,8 +253,8 @@
         private System.Windows.Forms.Button btnImportar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cboTemporadas;
-        private System.Windows.Forms.ComboBox cboAcciones;
+        private System.Windows.Forms.ComboBox cboTemporada;
+        private System.Windows.Forms.ComboBox cboEstadoCM;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnExportar;

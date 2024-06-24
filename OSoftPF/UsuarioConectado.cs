@@ -26,5 +26,7 @@ namespace OSoftPF
         public static string Rol { get; set; }
         public static string Pais { get; set; }
         public static int IdUsuario { get; set; }
+
+        public static string CodigoTemporada { get; set; }
     }
 }

@@ -29,8 +29,12 @@ namespace OSoftPF
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
             VistaDeAdministrador();
+
             AdministrarControlUsuarios();
+
             ConfiguracionBotonConfiguracion();
+
+            MostrarCodigoTemporadaReciente();
         }
 
         private void MenuPrincipal_FormClosed(object sender, FormClosedEventArgs e)
@@ -267,5 +271,40 @@ namespace OSoftPF
             GestionCM openCM = new GestionCM();
             openCM.ShowDialog();
         }
+
+        private void MostrarCodigoTemporadaReciente()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT TOP 1 CodigoTemporada FROM Temporada ORDER BY IdTemporada DESC";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string codigoTemporada = reader["CodigoTemporada"].ToString();
+                                lblTemporada.Text = codigoTemporada;
+                                UsuarioConectado.CodigoTemporada = codigoTemporada; // Guarda el valor en la variable de clase
+                            }
+                            else
+                            {
+                                lblTemporada.Text = "No hay temporadas disponibles";
+                                UsuarioConectado.CodigoTemporada = null; // Resetea la variable de clase si no hay temporadas
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener el código de la temporada más reciente: " + ex.Message);
+            }
+        }
+
+
     }
 }

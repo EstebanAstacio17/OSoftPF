@@ -32,7 +32,8 @@
             this.dgvSeleccionados = new System.Windows.Forms.DataGridView();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnValidar = new System.Windows.Forms.Button();
-            this.btnEvaluar = new System.Windows.Forms.Button();
+            this.cboTemporada = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSeleccionados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,10 +55,14 @@
             this.dgvSeleccionados.BackgroundColor = System.Drawing.Color.White;
             this.dgvSeleccionados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSeleccionados.Location = new System.Drawing.Point(12, 12);
+            this.dgvSeleccionados.MultiSelect = false;
             this.dgvSeleccionados.Name = "dgvSeleccionados";
             this.dgvSeleccionados.ReadOnly = true;
+            this.dgvSeleccionados.RowHeadersVisible = false;
+            this.dgvSeleccionados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSeleccionados.Size = new System.Drawing.Size(940, 551);
             this.dgvSeleccionados.TabIndex = 1;
+            this.dgvSeleccionados.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvSeleccionados_CellDoubleClick);
             // 
             // btnGuardar
             // 
@@ -81,16 +86,25 @@
             this.btnValidar.UseVisualStyleBackColor = true;
             this.btnValidar.Click += new System.EventHandler(this.btnValidar_Click);
             // 
-            // btnEvaluar
+            // cboTemporada
             // 
-            this.btnEvaluar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.btnEvaluar.Location = new System.Drawing.Point(634, 569);
-            this.btnEvaluar.Name = "btnEvaluar";
-            this.btnEvaluar.Size = new System.Drawing.Size(75, 30);
-            this.btnEvaluar.TabIndex = 4;
-            this.btnEvaluar.Text = "Evaluar";
-            this.btnEvaluar.UseVisualStyleBackColor = true;
-            this.btnEvaluar.Click += new System.EventHandler(this.btnEvaluar_Click);
+            this.cboTemporada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboTemporada.FormattingEnabled = true;
+            this.cboTemporada.Location = new System.Drawing.Point(615, 571);
+            this.cboTemporada.Name = "cboTemporada";
+            this.cboTemporada.Size = new System.Drawing.Size(94, 28);
+            this.cboTemporada.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.IndianRed;
+            this.label1.Location = new System.Drawing.Point(515, 574);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 20);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Temporada:";
             // 
             // ImportarCM
             // 
@@ -98,7 +112,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(964, 611);
-            this.Controls.Add(this.btnEvaluar);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cboTemporada);
             this.Controls.Add(this.btnValidar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.dgvSeleccionados);
@@ -109,8 +124,10 @@
             this.Name = "ImportarCM";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "importarCM";
+            this.Load += new System.EventHandler(this.ImportarCM_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSeleccionados)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -120,6 +137,7 @@
         private System.Windows.Forms.DataGridView dgvSeleccionados;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnValidar;
-        private System.Windows.Forms.Button btnEvaluar;
+        private System.Windows.Forms.ComboBox cboTemporada;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -47,6 +47,7 @@
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblHerramientas = new System.Windows.Forms.Label();
             this.btnMI = new System.Windows.Forms.Button();
+            this.lblTemporada = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -217,6 +218,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.lblTemporada);
             this.groupBox2.Controls.Add(this.lblId);
             this.groupBox2.Controls.Add(this.lblUsuario);
             this.groupBox2.Controls.Add(this.lblPermiso);
@@ -282,6 +284,16 @@
             this.btnMI.UseVisualStyleBackColor = false;
             this.btnMI.Click += new System.EventHandler(this.btnMI_Click);
             // 
+            // lblTemporada
+            // 
+            this.lblTemporada.AutoSize = true;
+            this.lblTemporada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTemporada.Location = new System.Drawing.Point(123, 75);
+            this.lblTemporada.Name = "lblTemporada";
+            this.lblTemporada.Size = new System.Drawing.Size(39, 20);
+            this.lblTemporada.TabIndex = 7;
+            this.lblTemporada.Text = "------";
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -326,5 +338,6 @@
         private System.Windows.Forms.Button btnMI;
         private System.Windows.Forms.Label lblId;
         private System.Windows.Forms.Button btnConfiguracion;
+        private System.Windows.Forms.Label lblTemporada;
     }
 }
