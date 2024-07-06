@@ -42,12 +42,12 @@
             this.btnCE = new System.Windows.Forms.Button();
             this.btnControlUsuarios = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblTemporada = new System.Windows.Forms.Label();
             this.lblId = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
             this.lblHerramientas = new System.Windows.Forms.Label();
             this.btnMI = new System.Windows.Forms.Button();
-            this.lblTemporada = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -129,6 +129,7 @@
             this.btnCD.TabIndex = 14;
             this.btnCD.Text = "Discipulado";
             this.btnCD.UseVisualStyleBackColor = false;
+            this.btnCD.Click += new System.EventHandler(this.btnCD_Click);
             // 
             // btnAdministracion
             // 
@@ -231,6 +232,16 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             // 
+            // lblTemporada
+            // 
+            this.lblTemporada.AutoSize = true;
+            this.lblTemporada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTemporada.Location = new System.Drawing.Point(123, 75);
+            this.lblTemporada.Name = "lblTemporada";
+            this.lblTemporada.Size = new System.Drawing.Size(39, 20);
+            this.lblTemporada.TabIndex = 7;
+            this.lblTemporada.Text = "------";
+            // 
             // lblId
             // 
             this.lblId.AutoSize = true;
@@ -283,16 +294,6 @@
             this.btnMI.Text = "Movilización de Iglesias";
             this.btnMI.UseVisualStyleBackColor = false;
             this.btnMI.Click += new System.EventHandler(this.btnMI_Click);
-            // 
-            // lblTemporada
-            // 
-            this.lblTemporada.AutoSize = true;
-            this.lblTemporada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTemporada.Location = new System.Drawing.Point(123, 75);
-            this.lblTemporada.Name = "lblTemporada";
-            this.lblTemporada.Size = new System.Drawing.Size(39, 20);
-            this.lblTemporada.TabIndex = 7;
-            this.lblTemporada.Text = "------";
             // 
             // MenuPrincipal
             // 

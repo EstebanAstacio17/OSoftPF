@@ -35,6 +35,7 @@ namespace OSoftPF
 
         private void LlenarComboBoxDeHerramientas()
         {
+            OpcionesDeEquipos();
             OpcionesDeZonas();
             OpcionesDeTemporada();
         }
@@ -42,7 +43,7 @@ namespace OSoftPF
         private void NoEditarComboBoxes()
         {
             cboZona.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboEstadoCM.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboEquipo.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTemporada.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
@@ -66,10 +67,11 @@ namespace OSoftPF
         private void Busqueda()
         {
             string valorBusqueda = txtBusqueda.Text.Trim();
-            string temporadaSeleccionada = cboTemporada.SelectedItem?.ToString();
+            string equipoSeleccionado = cboEquipo.SelectedItem?.ToString();
             string zonaSeleccionada = cboZona.SelectedItem?.ToString();
+            string temporadaSeleccionada = cboTemporada.SelectedItem?.ToString();
 
-            if (string.IsNullOrEmpty(valorBusqueda) && string.IsNullOrEmpty(temporadaSeleccionada) && string.IsNullOrEmpty(zonaSeleccionada))
+            if (string.IsNullOrEmpty(valorBusqueda) && string.IsNullOrEmpty(equipoSeleccionado) && string.IsNullOrEmpty(zonaSeleccionada) && string.IsNullOrEmpty(temporadaSeleccionada))
             {
                 MessageBox.Show("Por favor, ingrese un valor de búsqueda o seleccione filtros.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -111,14 +113,19 @@ namespace OSoftPF
                         query += " AND (o.NombreOrganizacion LIKE @valorBusqueda OR p.NombrecompletoPastor LIKE @valorBusqueda OR l.NombrecompletoLider LIKE @valorBusqueda)";
                     }
 
-                    if (!string.IsNullOrEmpty(temporadaSeleccionada))
+                    if (!string.IsNullOrEmpty(equipoSeleccionado))
                     {
-                        query += " AND d.TemporadaCM = @temporadaSeleccionada";
+                        query += " AND d.EquipoCM = @equipoSeleccionado";
                     }
 
                     if (!string.IsNullOrEmpty(zonaSeleccionada))
                     {
                         query += " AND d.ZonaCM = @zonaSeleccionada";
+                    }
+
+                    if (!string.IsNullOrEmpty(temporadaSeleccionada))
+                    {
+                        query += " AND d.TemporadaCM = @temporadaSeleccionada";
                     }
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -128,14 +135,19 @@ namespace OSoftPF
                             command.Parameters.AddWithValue("@valorBusqueda", "%" + valorBusqueda + "%");
                         }
 
-                        if (!string.IsNullOrEmpty(temporadaSeleccionada))
+                        if (!string.IsNullOrEmpty(equipoSeleccionado))
                         {
-                            command.Parameters.AddWithValue("@temporadaSeleccionada", temporadaSeleccionada);
+                            command.Parameters.AddWithValue("@equipoSeleccionado", equipoSeleccionado);
                         }
 
                         if (!string.IsNullOrEmpty(zonaSeleccionada))
                         {
                             command.Parameters.AddWithValue("@zonaSeleccionada", zonaSeleccionada);
+                        }
+
+                        if (!string.IsNullOrEmpty(temporadaSeleccionada))
+                        {
+                            command.Parameters.AddWithValue("@temporadaSeleccionada", temporadaSeleccionada);
                         }
 
                         using (SqlDataAdapter adapter = new SqlDataAdapter(command))
@@ -163,13 +175,50 @@ namespace OSoftPF
         {
             txtBusqueda.Clear();
 
-            cboEstadoCM.SelectedIndex = -1;
+            cboEquipo.SelectedIndex = -1;
             cboTemporada.SelectedIndex = -1;
             cboZona.SelectedIndex = -1;
 
             dgvGestionCM.DataSource = null;
         }
+        private void OpcionesDeEquipos()
+        {
+            // Clear any existing items in the ComboBox
+            cboEquipo.Items.Clear();
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    // Open the connection to the database
+                    connection.Open();
+
+                    // Define the SQL query to retrieve the desired column from your table
+                    string query = "SELECT CodigoEquipo FROM Equipos WHERE EstadoEquipo = 'Activo'";
+
+                    // Create a SqlCommand to execute the query
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        // Execute the query and obtain a SqlDataReader
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            // Loop through the rows in the SqlDataReader
+                            while (reader.Read())
+                            {
+                                // Add each value to the ComboBox
+                                cboEquipo.Items.Add(reader["CodigoEquipo"].ToString());
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that may have occurred
+                    MessageBox.Show("Error al llenar el ComboBox: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
         private void OpcionesDeZonas()
         {
             // Clear any existing items in the ComboBox
@@ -346,5 +395,9 @@ namespace OSoftPF
                 }
             }
         }
+
+
+
+        
     }
 }

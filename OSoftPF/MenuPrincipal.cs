@@ -268,8 +268,22 @@ namespace OSoftPF
 
         private void btnMI_Click(object sender, EventArgs e)
         {
-            GestionCM openCM = new GestionCM();
-            openCM.ShowDialog();
+            if (UsuarioConectado.Permiso == "Coordinador" || UsuarioConectado.Permiso == "Administrador")
+            {
+                if (UsuarioConectado.Rol == "CMI" || UsuarioConectado.Rol == "CE")
+                {
+                    GestionCM openCM = new GestionCM();
+                    openCM.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No tiene los permisos necesarios para acceder a esta función.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No tiene los permisos necesarios para acceder a esta función.");
+            }
         }
 
         private void MostrarCodigoTemporadaReciente()
@@ -305,6 +319,24 @@ namespace OSoftPF
             }
         }
 
-
+        private void btnCD_Click(object sender, EventArgs e)
+        {
+            if (UsuarioConectado.Permiso == "Coordinador" || UsuarioConectado.Permiso == "Administrador")
+            {
+                if (UsuarioConectado.Rol == "CD" || UsuarioConectado.Rol == "CE")
+                {
+                    GestionCM openCM = new GestionCM();
+                    openCM.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("No tiene los permisos necesarios para acceder a esta función.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No tiene los permisos necesarios para acceder a esta función.");
+            }
+        }
     }
 }

@@ -37,11 +37,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cboTemporada = new System.Windows.Forms.ComboBox();
-            this.cboEstadoCM = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnExportar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cboEquipo = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGestionCM)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,9 +50,9 @@
             this.btnFiltrar.BackColor = System.Drawing.Color.SteelBlue;
             this.btnFiltrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFiltrar.ForeColor = System.Drawing.Color.White;
-            this.btnFiltrar.Location = new System.Drawing.Point(466, 25);
+            this.btnFiltrar.Location = new System.Drawing.Point(470, 25);
             this.btnFiltrar.Name = "btnFiltrar";
-            this.btnFiltrar.Size = new System.Drawing.Size(90, 40);
+            this.btnFiltrar.Size = new System.Drawing.Size(111, 35);
             this.btnFiltrar.TabIndex = 0;
             this.btnFiltrar.Text = "Filtrar";
             this.btnFiltrar.UseVisualStyleBackColor = false;
@@ -63,9 +63,9 @@
             this.txtBusqueda.BackColor = System.Drawing.Color.White;
             this.txtBusqueda.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtBusqueda.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBusqueda.Location = new System.Drawing.Point(70, 34);
+            this.txtBusqueda.Location = new System.Drawing.Point(12, 34);
             this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(365, 26);
+            this.txtBusqueda.Size = new System.Drawing.Size(452, 26);
             this.txtBusqueda.TabIndex = 1;
             // 
             // cboZona
@@ -73,7 +73,7 @@
             this.cboZona.BackColor = System.Drawing.Color.White;
             this.cboZona.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboZona.FormattingEnabled = true;
-            this.cboZona.Location = new System.Drawing.Point(838, 32);
+            this.cboZona.Location = new System.Drawing.Point(714, 33);
             this.cboZona.Name = "cboZona";
             this.cboZona.Size = new System.Drawing.Size(121, 28);
             this.cboZona.TabIndex = 2;
@@ -125,7 +125,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(834, 9);
+            this.label1.Location = new System.Drawing.Point(710, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 20);
             this.label1.TabIndex = 6;
@@ -136,7 +136,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label2.Location = new System.Drawing.Point(707, 9);
+            this.label2.Location = new System.Drawing.Point(837, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 20);
             this.label2.TabIndex = 7;
@@ -147,31 +147,10 @@
             this.cboTemporada.BackColor = System.Drawing.Color.White;
             this.cboTemporada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboTemporada.FormattingEnabled = true;
-            this.cboTemporada.Location = new System.Drawing.Point(711, 32);
+            this.cboTemporada.Location = new System.Drawing.Point(841, 33);
             this.cboTemporada.Name = "cboTemporada";
             this.cboTemporada.Size = new System.Drawing.Size(121, 28);
             this.cboTemporada.TabIndex = 8;
-            // 
-            // cboEstadoCM
-            // 
-            this.cboEstadoCM.BackColor = System.Drawing.Color.White;
-            this.cboEstadoCM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboEstadoCM.FormattingEnabled = true;
-            this.cboEstadoCM.Location = new System.Drawing.Point(584, 32);
-            this.cboEstadoCM.Name = "cboEstadoCM";
-            this.cboEstadoCM.Size = new System.Drawing.Size(121, 28);
-            this.cboEstadoCM.TabIndex = 10;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label3.Location = new System.Drawing.Point(580, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 20);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Estado CM";
             // 
             // btnLimpiar
             // 
@@ -204,11 +183,32 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label4.Location = new System.Drawing.Point(66, 9);
+            this.label4.Location = new System.Drawing.Point(12, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(162, 20);
             this.label4.TabIndex = 13;
             this.label4.Text = "Pastor - Lider - Iglesia";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label3.Location = new System.Drawing.Point(583, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 20);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Equipo";
+            // 
+            // cboEquipo
+            // 
+            this.cboEquipo.BackColor = System.Drawing.Color.White;
+            this.cboEquipo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboEquipo.FormattingEnabled = true;
+            this.cboEquipo.Location = new System.Drawing.Point(587, 33);
+            this.cboEquipo.Name = "cboEquipo";
+            this.cboEquipo.Size = new System.Drawing.Size(121, 28);
+            this.cboEquipo.TabIndex = 14;
             // 
             // GestionCM
             // 
@@ -216,11 +216,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(974, 621);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.cboEquipo);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnExportar);
-            this.Controls.Add(this.cboEstadoCM);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.cboTemporada);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -254,10 +254,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cboTemporada;
-        private System.Windows.Forms.ComboBox cboEstadoCM;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnExportar;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cboEquipo;
     }
 }
